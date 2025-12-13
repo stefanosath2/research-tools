@@ -1,0 +1,30 @@
+              ┌─────────────────────────────┐
+              │ 1. Edit file → unstaged v2  │
+              └──────────────┬──────────────┘
+                             ↓
+                    2. git diff (view)
+                             ↓
+        ┌─────────────────────────────┬───────────────────────────────┐
+        │ OPTIONAL: discard           │ Continue with normal workflow │
+        │ unstaged changes            │                               │
+        ▼                             ▼                               ▼
+  git restore app.js           3. git add app.js                  (continue)
+  (working tree → clean)       (stage v2)  
+                                ↓
+                        4. git diff --staged
+                                ↓
+        ┌─────────────────────────────┬───────────────────────────────┐
+        │ OPTIONAL: unstage changes   │ Continue with committing      │
+        ▼                             ▼                               ▼
+git restore --staged app.js     7. git commit -m "msg"
+(index → HEAD)                  (store v3)
+        │                             ↓
+        ▼                      ┌─────────────────────────────┐
+ OPTIONAL: discard             │ 8. Commit exists in history │
+ working tree edits            └──────────────┬──────────────┘
+ git restore app.js                           ↓
+                                   OPTIONAL: undo via history-safe method
+                                             ▼
+                                      git revert <commit>
+                                   (new commit v4 that undoes v3)
+
