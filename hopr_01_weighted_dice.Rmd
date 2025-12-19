@@ -1,0 +1,82 @@
+---
+title: "Hands-on programming with R: Weighted dice"
+output:
+  html_document:
+    theme: united
+---
+
+```{r}
+library(ggplot2)
+```
+
+
+### Create a die (assign values to an object)
+
+Create an object called die that contains a number of values
+
+```{r}
+# Create an object called die that contains the values 1 to 6
+die <- 1:6
+```
+
+You can do a lot with this vector by adding/subtracting it using element-wise execution (which is not what you would expect in linear algebra)
+
+```{r}
+die * 2
+```
+
+You can also give R vectors of unequal length, it will recycle the shorter vector to match the length of the longer vector
+
+```{r}
+die + 1:2
+```
+
+### Roll the die (write a function)
+
+Let's roll the die, the size will determine how many numbers R will sample from the values of die (size argument) and whether it will sample with replacement (replace argument)
+
+```{r}
+dice <- sample(x = die, size = 2, replace = TRUE)
+```
+
+Now, add up the dice
+
+```{r}
+# Add up the dice
+sum(dice)
+```
+
+Let's create a function so we can roll the dice whenever we want. Here we give the argument die a default value from 1 to 6 (die = 1:6).
+
+```{r}
+roll <- function(die = 1:6) {
+  dice <- sample(x = die, size = 2, replace = TRUE)
+  sum(dice)
+} 
+```
+
+### Roll the dice many times (use the replicate function)
+
+Modify the roll function in such a way so the probability of a number occurring should be higher to that of other numbers (see prob)
+
+```{r}
+roll <- function(){
+  die <- 1:6
+  dice <- sample(die, size = 2, replace = TRUE, prob = c(1/8,1/8,1/8,1/8,1/8,3/8))
+  sum(dice)
+}
+```
+
+Then replicate rolling the modified dice using the replicate command
+
+```{r}
+rolls <- replicate(10000,roll())
+```
+
+### Plot the distribution of the dice (use the qplot command)
+
+Use the qplot function to plot a histogram with a binwidth of 1
+
+```{r}
+qplot(rolls, binwidth=1)
+```
